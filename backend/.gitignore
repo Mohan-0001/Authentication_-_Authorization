@@ -1,1 +1,46 @@
-node_modules
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Build artifacts
+dist/
+build/
+
+# Coverage from test tools
+coverage/
+
+# Optional logs and temp files
+*.log
+*.tmp
+
+# dotenv backups
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# MongoDB
+dump/
+
+# Windows system files
+desktop.ini
+
+# Optional: ignore uploads (if any)
+uploads/
+
+# Ignore compiled files
+*.tsbuildinfo
