@@ -114,7 +114,12 @@ exports.verifyAccount = catchAsync(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false });
 
-  createSendToken(user, 200, res, "Email has been verified");
+  // createSendToken(user, 200, res, "Email has been verified");
+  // Don't issue a token here — just confirm success
+  res.status(200).json({
+    status: "success",
+    message: "Email has been verified. Please login to continue.",
+  });
 });
 
 exports.resentOTP = catchAsync(async (req, res, next) => {
@@ -186,13 +191,13 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide email and password"));
   }
 
+  const user = await User.findOne({ email }).select("+password");
+
   if (!user.isVerified) {
     return next(
       new AppError("Please verify your email before logging in.", 401)
     );
   }
-
-  const user = await User.findOne({ email }).select("+password");
 
   // Compare the password with the password save in the database
 
@@ -222,7 +227,7 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return next(new AppError("N user found", 404));
+    return next(new AppError("No user found", 404));
   }
 
   const otp = generateOtp();
@@ -289,5 +294,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   await user.save();
 
-  createSendToken(user, 200, res, "Password reset Successfully");
+  // createSendToken(user, 200, res, "Password reset Successfully");
+  // No token here — force login after password reset
+  res.status(200).json({
+    status: "success",
+    message: "Password reset successfully. Please login.",
+  });
 });

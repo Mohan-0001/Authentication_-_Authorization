@@ -3,11 +3,13 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; 
 
 const EmailVerificationPage = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const inputsRef = useRef([]);
+  const navigate = useNavigate();
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -38,6 +40,7 @@ const EmailVerificationPage = () => {
         { withCredentials: true }
       );
       toast.success("Verified successfully!");
+      navigate("/");
     } catch (err) {
       toast.error("Verification failed: " + (err.response?.data?.message || ""));
     } finally {
